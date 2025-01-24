@@ -1,4 +1,6 @@
-import React, {useState} from 'react';
+// BookmarkManager.js
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 import {
     Table,
     TableBody,
@@ -14,22 +16,33 @@ import {
 const BookmarkManager = () => {
     const [bookmarks, setBookmarks] = useState([
         { name: "Google", url: "https://www.google.com", status: "Available" },
+        { name: "Facebook", url: "https://www.facebook.com", status: "Checking" },
+        { name: "GitHub", url: "https://github.com", status: "Redirecting" },
         { name: "Dead Link", url: "https://dead-link.com", status: "Dead" },
     ]);
     const [newBookmark, setNewBookmark] = useState({ name: "", url: ""});
+    const [searchWord, setSearchWord] = useState("");
+
+    const filteredBookmarks = bookmarks.filter((bookmark) => 
+        bookmark.name.toLowerCase().includes(searchWord.toLowerCase())
+    );
+
+    // Add useEffect to check URL status
 
     const addBookmark = () => {
-        if (newBookmark.name && newBookmark.url) {
             setBookmarks([...bookmarks,
-                { name: newBookmark.name, url: newBookmark.url, status: "Not checked" }
+                { name: newBookmark.name, url: newBookmark.url, status: "Checking"}
             ]);
-        }
         setNewBookmark({ name: "", url: ""});
     };
 
     const removeBookmark = (index) => {
         setBookmarks(bookmarks.filter((_, i) => i !== index));
     };
+
+    const checkUrlStatus = (url) =>{
+        // Add API call to backend to check URL status
+    }
 
     return (
         <div>
@@ -49,9 +62,14 @@ const BookmarkManager = () => {
                 />
                 <Button onClick={addBookmark}>Add Bookmark</Button>
             </div>
-
+            <br />
             {/* List Bookmarks */}
             <div>
+                <TextField
+                    label="Search"
+                    value={searchWord}
+                    onChange={(e) => setSearchWord(e.target.value)}
+                />
                 <TableContainer component={Paper}>
                     <Table aria-label="Your bookmarks">
                         <TableHead>
@@ -63,12 +81,14 @@ const BookmarkManager = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {bookmarks.map((row, index) => (
+                            {filteredBookmarks.map((row, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{row.name}</TableCell>
-                                    <TableCell>{row.url}</TableCell>
-                                    <TableCell>{row.status}</TableCell>
+                                    <TableCell>{row.url.length > 40 ? row.url.slice(0, 40) + '...' : row.url}</TableCell>
+                                    <TableCell className={`row-status ${row.status}`}>{row.status}</TableCell>
                                     <TableCell>
+                                        <Button>Open</Button>
+                                        <Button>Edit</Button>
                                         <Button onClick={() => removeBookmark(index)}>Remove</Button>
                                     </TableCell>
                                 </TableRow>
