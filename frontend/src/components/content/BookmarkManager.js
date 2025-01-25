@@ -75,6 +75,7 @@ const BookmarkManager = () => {
                         <TableHead>
                             <TableRow>
                                 <TableCell>Name</TableCell>
+                                <TableCell>Tag</TableCell>
                                 <TableCell>URL</TableCell>
                                 <TableCell>Status</TableCell>
                                 <TableCell>Actions</TableCell>
@@ -84,8 +85,9 @@ const BookmarkManager = () => {
                             {filteredBookmarks.map((row, index) => (
                                 <TableRow key={index}>
                                     <TableCell>{row.name}</TableCell>
+                                    <TableCell>{row.tag}</TableCell>
                                     <TableCell>{row.url.length > 40 ? row.url.slice(0, 40) + '...' : row.url}</TableCell>
-                                    <TableCell className={`row-status ${row.status}`}>{row.status}</TableCell>
+                                    <TableCell className={`row-status-${row.status}`}>{row.status}</TableCell>
                                     <TableCell>
                                         <Button>Open</Button>
                                         <Button>Edit</Button>

@@ -12,3 +12,33 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.header-links a{
+  font-size: medium;
+  flex-direction: row;
+  color:white;
+}
+.header button {
+  font-size: medium;
+  flex-direction: row;
+  color:white;
+  background: none;
+  border: none;
+  text-decoration: underline;
+}
+.header button:hover {
+  cursor: pointer;
+}
+
+.row-status-Available{
+  background-color: rgb(79, 186, 79);
+}
+.row-status-Checking{
+  background-color: rgb(207, 207, 80);
+}
+.row-status-Dead{
+  background-color: rgb(196, 74, 74);
+}
+.row-status-Redirecting{
+  background-color: rgb(90, 223, 214);
+}
