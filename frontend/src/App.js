@@ -8,6 +8,7 @@ import './App.css';
 import Header from './components/Header' ;
 import BookmarkManager from './components/content/BookmarkManager';
 import Login from './components/auth/Login';
+import Register from './components/auth/Registration';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/" element={<PrivateRoute element={<BookmarkManager />}/>}/>
             {/* Public routes */}
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </div>
       </Router>

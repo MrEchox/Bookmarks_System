@@ -18,10 +18,11 @@ export const login = async (username, password) => {
     }
 };
 
-export const register = async (username, password ) => {
+export const register = async (email, password, username ) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/api/auth/register`, {
+        const response = await axios.post(`${API_BASE_URL}/register/`, {
             username: username,
+            email: email,
             password : password
         });
         return response.data;
