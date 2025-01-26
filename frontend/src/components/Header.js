@@ -12,7 +12,11 @@ const Header = () => {
             <h2>Bookmarking System</h2>
             <div className="header-links">
                 {isAuthed ? (
-                        <Logout />
+                        <>
+                            <Link to="/workspaces">Workspaces</Link>
+                            <span> | </span>
+                            <Logout />
+                        </>
                 ) : (
                     <>
                         <Link to="/login">Login</Link>

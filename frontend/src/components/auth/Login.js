@@ -28,7 +28,7 @@ const Login = () => {
         <div>
             <h2>Login</h2>
             {error && <p style={{ color: "red", marginTop: "10px" }}>{error}</p>}
-            <form onSubmit={handleLogin}>
+            <form className="auth-form" onSubmit={handleLogin}>
                 <div>
                     <label>Username:</label>
                     <input
@@ -39,7 +39,7 @@ const Login = () => {
                     />
                 </div>
                 <div>
-                    <label>Password:</label>
+                    <label>Password: </label>
                     <input
                         type="password"
                         onChange={(e) => setPassword(e.target.value)}

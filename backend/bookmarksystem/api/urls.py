@@ -11,15 +11,14 @@ urlpatterns = [
     
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    
     path('register/', views.createUser),
     
-    path('workspaces/get', views.getWorkspaces),
-    path('workspaces/create', views.createWorkspace),
-    path('workspaces/delete/<str:pk>', views.deleteWorkspace),
+    path('workspaces/', views.workspaceOperations),
+    path('workspaces/delete/<str:workspace_id>/', views.deleteWorkspace),
     
-    path('bookmarks/get', views.getBookmarks),
-    path('bookmarks/create', views.createBookmark),
-    path('bookmarks/update', views.updateBookmark),
-    path('bookmarks/delete/<str:pk>', views.deleteBookmark),
+    path('workspaces/<str:workspace_id>/bookmarks/', views.bookmarkOperations),
+    path('workspaces/<str:workspace_id>/bookmarks/delete/<str:bookmark_id>/', views.deleteBookmark),
+    path('workspaces/<str:workspace_id>/bookmarks/update/<str:bookmark_id>/', views.updateBookmark),
+    
+    path('check-url/', views.checkBookmarkStatus),
 ]

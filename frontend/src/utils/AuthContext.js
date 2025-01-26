@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect} from "react";
-import { jwtDecode } from "jwt-decode";
-import { login as loginApiCall} from "./ApiService";
+import React, { createContext, useContext, useState, useEffect } from "react";
+import {jwtDecode} from "jwt-decode";
+import { login as loginApiCall, refreshToken as refreshAccessToken } from "./ApiService";
 
 const AuthContext = createContext();
 
@@ -15,37 +15,69 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
-        setUserToken(token);
+        const refreshToken = localStorage.getItem("refreshToken");
 
         if (token) {
             const decodedToken = jwtDecode(token);
-            setAuthState(decodedToken);
-            setUserId(decodedToken.user_id);
+
+            // Check if the token is expired
+            if (decodedToken.exp * 1000 > Date.now()) {
+                setAuthState(decodedToken);
+                setUserId(decodedToken.user_id);
+                scheduleTokenRefresh(decodedToken, refreshToken); // Schedule token refresh
+            } else {
+                logout();
+            }
         } else {
             setIsAuthed(false);
         }
     }, []);
 
     const setAuthState = (decodedToken) => {
-        if (decodedToken.exp < Date.now() / 1000) {
-            console.warn("Token has expired");
-            logout();
-            return;
-        }
         setIsAuthed(true);
-    }
+        setUserToken(decodedToken);
+    };
+
+    const scheduleTokenRefresh = (decodedToken, refreshToken) => {
+        const timeUntilExpiry = decodedToken.exp * 1000 - Date.now() - 5000; // Refresh 5 seconds before expiration
+        if (timeUntilExpiry > 0) {
+            setTimeout(() => handleTokenRefresh(refreshToken), timeUntilExpiry);
+        }
+    };
+
+    const handleTokenRefresh = async (refreshToken) => {
+        try {
+            const response = await refreshAccessToken(refreshToken);
+            const newAccessToken = response.access;
+
+            // Save the new token and update state
+            localStorage.setItem("token", newAccessToken);
+            const decodedNewToken = jwtDecode(newAccessToken);
+            setAuthState(decodedNewToken);
+            scheduleTokenRefresh(decodedNewToken, refreshToken); // Schedule the next refresh
+        } catch (error) {
+            console.error("Token refresh failed:", error);
+            logout();
+        }
+    };
 
     // Login function
     const login = async (username, password) => {
         try {
-            const response = await loginApiCall(username, password); // Make API call
-            const token = response.access;
-            localStorage.setItem("token", token);
-            console.log("Login successful, token:", token);
+            const response = await loginApiCall(username, password);
+            const { access, refresh } = response;
 
-            let decodedToken = jwtDecode(token);
-            setUserToken(token);
+            // Save tokens in localStorage
+            localStorage.setItem("token", access);
+            localStorage.setItem("refreshToken", refresh);
+
+            const decodedToken = jwtDecode(access);
+            setUserToken(access);
             setAuthState(decodedToken);
+            setUserId(decodedToken.user_id);
+
+            // Schedule the first token refresh
+            scheduleTokenRefresh(decodedToken, refresh);
         } catch (error) {
             console.error("Login failed:", error);
             throw new Error("Invalid credentials");
@@ -55,11 +87,13 @@ export const AuthProvider = ({ children }) => {
     // Logout function
     const logout = () => {
         localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
         setIsAuthed(false);
+        setUserToken(null);
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthed, login, logout}}>
+        <AuthContext.Provider value={{ isAuthed, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

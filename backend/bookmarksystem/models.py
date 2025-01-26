@@ -9,7 +9,7 @@ class Workspace(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.tile
+        return self.title
 
 class Bookmark(models.Model):
     workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, null = True)

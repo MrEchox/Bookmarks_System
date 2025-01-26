@@ -9,6 +9,7 @@ import Header from './components/Header' ;
 import BookmarkManager from './components/content/BookmarkManager';
 import Login from './components/auth/Login';
 import Register from './components/auth/Registration';
+import WorkspaceList from './components/content/WorkspaceList';
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
         <div className="App">
           <Routes>
             {/* Private routes */}
-            <Route path="/" element={<PrivateRoute element={<BookmarkManager />}/>}/>
+            <Route path="/" element={<PrivateRoute element={<WorkspaceList />}/>}/> 
+            <Route path="/workspaces" element={<PrivateRoute element={<WorkspaceList />}/>}/> 
+            <Route path="/workspaces/:workspaceId/bookmarks" element={<PrivateRoute element={<BookmarkManager />}/>}/> 
             {/* Public routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
