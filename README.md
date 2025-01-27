@@ -1,6 +1,13 @@
 # Bookmark System
 ### A simple bookmark saving system with dynamic number of workspaces and bookmarks.
 
+## How to run project:
+- Front-end:
+	In console or terminal navigate to the '/frontend' directory and run 'npm start'.
+- Back-end:
+	In console or terminal navigate to the '/backend' directory and run 'djangoenv\Scripts\activate'. Then run 'python manage.py runserver'.
+
+
 ## User guide:
 1. When first opening the website you are greeted with a log-in page.
 1.a. If you have an account, simply enter your credentials and press the "Login" button.

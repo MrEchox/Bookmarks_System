@@ -6,6 +6,9 @@ class BookmarkSerializer(ModelSerializer):
     class Meta:
         model = Bookmark
         fields = '__all__'
+        extra_kwargs = {
+            'tag': {'required': False, 'allow_null': True}
+        }
         
 class WorkspaceSerializer(ModelSerializer):
     class Meta:

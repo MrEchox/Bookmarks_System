@@ -129,7 +129,7 @@ export const createBookmark = async (workspaceId, bookmarkData) => {
         const response = await axios.post(`${API_BASE_URL}/workspaces/${workspaceId}/bookmarks/`, {
             title: bookmarkData.name,
             url: bookmarkData.url,
-            tag: bookmarkData.tag,
+            tag: bookmarkData.tag || null
         });
         return response.data;
     } catch (error) {
@@ -143,7 +143,7 @@ export const updateBookmark = async (workspaceId, bookmarkId, bookmarkData) => {
         const response = await axios.put(`${API_BASE_URL}/workspaces/${workspaceId}/bookmarks/update/${bookmarkId}/`, {
             title: bookmarkData.title,
             url: bookmarkData.url,
-            tag: bookmarkData.tag
+            tag: bookmarkData.tag || null
         });
         return response.data;
     } catch (error) {

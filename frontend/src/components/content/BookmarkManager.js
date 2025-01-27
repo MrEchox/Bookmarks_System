@@ -86,7 +86,7 @@ const BookmarkManager = () => {
     };
 
     const addBookmark = async () => {
-        if (!newBookmark.name || !newBookmark.url || !newBookmark.tag) {
+        if (!newBookmark.name || !newBookmark.url) {
             setErrorMessage("Name and URL are required!");
             return;
         }
@@ -95,6 +95,10 @@ const BookmarkManager = () => {
             return;
         }
         try {
+            if (newBookmark.tag === "") {
+                delete newBookmark.tag;
+            }
+            console.log("Adding bookmark: ", newBookmark);
             const bookmark = await createBookmark(workspaceId, newBookmark);
             setBookmarks([...bookmarks, bookmark]);
             setNewBookmark({ name: "", url: "", tag: "" });
@@ -131,6 +135,10 @@ const BookmarkManager = () => {
 
     const handleEditSave = async () => {
         try {
+            if (editableBookmark.tag === "") {
+                delete editableBookmark.tag;
+            }
+            console.log("Edited bookmark: ", editableBookmark);
             await updateBookmark(workspaceId, editableBookmark.id, editableBookmark);
             const updatedBookmarks = bookmarks.map((bookmark) => {
                 if (bookmark.id === editableBookmark.id) {
@@ -138,6 +146,7 @@ const BookmarkManager = () => {
                 }
                 return bookmark;
             });
+            setBookmarks(updatedBookmarks);
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 setErrorMessage("Unauthorized. Please login again.");
@@ -145,7 +154,6 @@ const BookmarkManager = () => {
         } finally {
             setEditableBookmark(null);
             setOpenEditModal(false);
-            fetchBookmarks();
         }
     }
 

@@ -65,7 +65,10 @@ def updateBookmark(request, workspace_id, bookmark_id):
     workspace = Workspace.objects.get(id=workspace_id)
     if workspace.user == user:
         if bookmark.workspace == workspace:
-            serializer = BookmarkSerializer(instance=bookmark, data=request.data)
+            data = request.data
+            if 'tag' not in request.data:
+                data['tag'] = None
+            serializer = BookmarkSerializer(instance=bookmark, data=data, partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)

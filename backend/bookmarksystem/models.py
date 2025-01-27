@@ -12,10 +12,10 @@ class Workspace(models.Model):
         return self.title
 
 class Bookmark(models.Model):
-    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, null = True)
+    workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, null=False)
     title = models.CharField(max_length=256)
-    url = models.URLField(max_length=256, blank=True, null=True)
-    tag = models.CharField(max_length=10)
+    url = models.URLField(max_length=256)
+    tag = models.CharField(max_length=10, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
