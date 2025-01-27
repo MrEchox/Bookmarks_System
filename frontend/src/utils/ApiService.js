@@ -74,7 +74,7 @@ export const refreshToken = async (refreshToken) => {
         const response = await axios.post(`${API_BASE_URL}/token/refresh/`, {
             refresh: refreshToken,
         });
-        return response.data; // { accessToken }
+        return response.data; // { access, refresh }
     } catch (error) {
         console.error("Failed to refresh token:", error);
         throw error;

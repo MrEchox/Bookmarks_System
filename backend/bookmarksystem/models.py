@@ -14,7 +14,7 @@ class Workspace(models.Model):
 class Bookmark(models.Model):
     workspace = models.ForeignKey(Workspace, on_delete=models.CASCADE, null = True)
     title = models.CharField(max_length=256)
-    url = models.URLField(max_length=256)
+    url = models.URLField(max_length=256, blank=True, null=True)
     tag = models.CharField(max_length=10)
     created_at = models.DateTimeField(auto_now_add=True)
     

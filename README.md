@@ -1,5 +1,5 @@
-# Bookmarks system
-# A simple bookmark saving system with dynamic number of workspaces and bookmarks.
+# Bookmark System
+### A simple bookmark saving system with dynamic number of workspaces and bookmarks.
 
 ## User guide:
 1. When first opening the website you are greeted with a log-in page.
@@ -83,4 +83,22 @@
 		- Send GET request with valid token to '/api/workspace/' - API returns valid response (or 404 if none).
 		- Send request without token to endpoint apart from auth - API returns invalid response.
 		
-	
+## Architecture (Class diagram):
+![Class diagram](https://cdn.discordapp.com/attachments/907214110301782046/1333158866912940032/image.png?ex=67988932&is=679737b2&hm=1b35b34d5e10d603214e6e0c08836e3270bec2032568acfb528b5686098acde6&)
+
+## Projekto išvados (Summary in lithuanian):
+- Pavyko realizuoti front-end ir back-end prototipus.
+- Pavyko realizuoti iškeltus projekto reikalavimus sistemai:
+    - Autentifikacija ir autorizacija;
+    - URL žymių CRUD operacijas;
+    - Darbo aplinkos (angl. workspace) perjunginėjimą;
+    - URL žymių paiešką pagal pavadinimą, URL arba susieta žyma (angl. tag);
+    - Žymų (angl. tag) kūrimą bei susiejimą su URL nuorodomis.
+    - URL žymių būsenos atvaizdavimą;
+- Pavyko sukurti ir sėkmingai saugoti įrašus į SQLite duombazę.
+- Priėmiau sprendimą realizuoti žymas (angl. tag) kaip papildomą ir 'nullable' laukelį prie URL žymos objekto.
+- Nepavyko realizuoti importavimo/eksportavimo iš JSON failų.
+- Nepavyko realizuoti URL būsenų atvaizdavimų (greičiausiai dėl tinklo apsaugos nuostatų).
+- Buvo užtrukta nemažai laiko suprasti SQLite ir Django.
+- Ant projekto praleista ~ 20 val.
+

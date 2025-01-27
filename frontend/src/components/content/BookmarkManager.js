@@ -87,7 +87,7 @@ const BookmarkManager = () => {
 
     const addBookmark = async () => {
         if (!newBookmark.name || !newBookmark.url || !newBookmark.tag) {
-            setErrorMessage("Name, URL and tag are required!");
+            setErrorMessage("Name and URL are required!");
             return;
         }
         if (!newBookmark.url.startsWith("http://") && !newBookmark.url.startsWith("https://")) {

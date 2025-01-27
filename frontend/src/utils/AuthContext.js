@@ -12,12 +12,13 @@ export const AuthProvider = ({ children }) => {
     const [isAuthed, setIsAuthed] = useState(false);
     const [userToken, setUserToken] = useState(null);
     const [userId, setUserId] = useState(null);
+    const [isLoggedOut, setIsLoggedOut] = useState(false);
 
     useEffect(() => {
         const token = localStorage.getItem("token");
         const refreshToken = localStorage.getItem("refreshToken");
 
-        if (token) {
+        if (!isLoggedOut && token) {
             const decodedToken = jwtDecode(token);
 
             // Check if the token is expired
@@ -70,6 +71,7 @@ export const AuthProvider = ({ children }) => {
             // Save tokens in localStorage
             localStorage.setItem("token", access);
             localStorage.setItem("refreshToken", refresh);
+            setIsLoggedOut(false);
 
             const decodedToken = jwtDecode(access);
             setUserToken(access);
@@ -88,6 +90,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("refreshToken");
+        setIsLoggedOut(true);
         setIsAuthed(false);
         setUserToken(null);
     };
